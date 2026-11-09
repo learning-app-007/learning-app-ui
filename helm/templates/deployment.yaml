@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: {{ include "learning-app-ui.name" . }}
+
+spec:
+  replicas: {{ .Values.replicaCount }}
+
+  selector:
+    matchLabels:
+      app: {{ include "learning-app-ui.name" . }}
+
+  template:
+    metadata:
+      labels:
+        app: {{ include "learning-app-ui.name" . }}
+    
+    spec:
+      containers:
+        - name: {{ include "learning-app-ui.name" . }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 80
+          
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/conf.d/default.conf
+              subPath: default.conf
+      
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: learning-app-ui-nginx

@@ -1,0 +1,6 @@
+apiVersion: v2
+name: learning-app-ui
+description: Helm chart for the Learning App frontend
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
